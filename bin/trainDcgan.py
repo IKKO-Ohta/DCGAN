@@ -64,7 +64,7 @@ def main():
     else:
         all_files = os.listdir(args.dataset)
         image_files = [f for f in all_files if ("png" in f or "jpg" in f)]
-        print({"{} contains {} image files"\
+        print("{} contains {} image files"\
             .format(args.dataset,len(image_files)))
         train_iter = chainer.iterators.SerialIterator(train, arg.batchsize)
 
@@ -104,4 +104,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-    
