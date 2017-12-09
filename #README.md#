@@ -1,0 +1,14 @@
+# DC-GAN
+’¤³’¤Î’¥ê’¥Ý’¥¸’¥È’¥ê’¤Ï’¡¢’¤ï’¤¿’¤·’¤¬’¸Ä’¿Í’Åª’¤ËDCGAN’¤Ë’¤Ä’¤¤’¤Æ’³Ø’½¬’¤¹’¤ë’¤¿’¤á’¤Ë’Àß’¤±’¤é’¤ì’¤¿’¥Ç’¥£’¥ì’¥¯’¥È’¥ê’¤Ç’¤¹’¡£
+
+## ’»²’¹Í’¤Ë’¤·’¤¿’Ê¸’¸¥
+   ### ’°Ê’²¼’¤Î’¾ð’Êó’¤¬GAN’¤ò’³Ø’¤Ö’¤Î’¤Ë’Ìò’Î©’¤Á’¤Þ’¤¹’¡£
+    - ’¸ø’¼°’¥ê’¥Ý’¥¸’¥È’¥ê https://github.com/chainer/chainer/tree/master/examples/dcgan ’¸ø’¼°’¼Â’Áõ
+    - ’µ­’»ö http://nykergoto.hatenablog.jp/entry/2016/11/24/205301 DCGAN’ËÜ’ÂÎ
+    - ’µ­’»ö http://aidiary.hatenablog.com/entry/20151014/1444827123 CIFAR-10’¤Î’»È’¤¤’Êý’¤Ë’¤Ä’¤¤’¤Æ
+    - ’µ­’»ö https://qiita.com/supersaiakujin/items/5e9d2b2850e256f99982 CIFAR-10’¤Î’»È’¤¤’Êý’¤Ë’¤Ä’¤¤’¤Æ]
+    - ’µ­’»ö http://musyoku.github.io/2017/02/06/Wasserstein-GAN/ W-GAN
+    - ’µ­’»ö http://www.monthly-hack.com/entry/2017/02/28/200546 W-GAN
+    - ’ÏÀ’Ê¸ https://arxiv.org/abs/1701.07875 ’¸¶’Ãø
+   ’¤³’¤Î’¸å’¤Ë’¤Ï’¡¢Wasserstein GAN[WGAN]’¤¬’¼Â’Áõ’¤µ’¤ì’¤ë’Í½’Äê’¤Ç’¤¹’¡£
+
