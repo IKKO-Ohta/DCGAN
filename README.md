@@ -7,4 +7,4 @@
     - 記事 https://qiita.com/supersaiakujin/items/5e9d2b2850e256f99982 CIFAR-10の使い方について]
     - 記事 http://musyoku.github.io/2017/02/06/Wasserstein-GAN/ W-GAN
     - 記事 http://www.monthly-hack.com/entry/2017/02/28/200546 W-GAN
-    - 論文 https://arxiv.org/abs/1701.07875 原著
+    - 論文 https://arxiv.org/abs/1701.07875 W-GAN原著
