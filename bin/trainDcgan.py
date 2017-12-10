@@ -41,66 +41,74 @@ def main():
     print('# epoch: {}'.format(args.epoch))
     print('')
 
-    # set up a neural network to train
+    # Set up a neural network to train
     gen = Generator(n_hidden=args.n_hidden)
     dis = Discriminator()
 
     if args.gpu >= 0:
+        # Make a specified GPU current
         chainer.cuda.get_device_from_id(args.gpu).use()
-        gen.to_gpu()
+        gen.to_gpu()  # Copy the model to the GPU
         dis.to_gpu()
 
+    # Setup an optimizer
     def make_optimizer(model, alpha=0.0002, beta1=0.5):
-        optimizer = chainer.optimizers.Adam(alpha=alpha,beta1=beta1)
+        optimizer = chainer.optimizers.Adam(alpha=alpha, beta1=beta1)
         optimizer.setup(model)
-        optimizer.add_hook(chainer.optimizer.WeightDecay(0.0001),"hook_dec")
+        optimizer.add_hook(chainer.optimizer.WeightDecay(0.0001), 'hook_dec')
         return optimizer
-
     opt_gen = make_optimizer(gen)
     opt_dis = make_optimizer(dis)
 
-    if arg.dataset == "":
-        train,_ = chainer.datasets.get_cifar10(withlabel=False,scale=255.)
+    if args.dataset == '':
+        # Load the CIFAR10 dataset if args.dataset is not specified
+        train, _ = chainer.datasets.get_cifar10(withlabel=False, scale=255.)
     else:
         all_files = os.listdir(args.dataset)
-        image_files = [f for f in all_files if ("png" in f or "jpg" in f)]
-        print("{} contains {} image files"\
-            .format(args.dataset,len(image_files)))
-        train_iter = chainer.iterators.SerialIterator(train, arg.batchsize)
+        image_files = [f for f in all_files if ('png' in f or 'jpg' in f)]
+        print('{} contains {} image files'
+              .format(args.dataset, len(image_files)))
+        train = chainer.datasets\
+            .ImageDataset(paths=image_files, root=args.dataset)
 
-    #set up a trainer
+    train_iter = chainer.iterators.SerialIterator(train, args.batchsize)
+
+    # Set up a trainer
     updater = DCGANUpdater(
-        models = (gen,dis),
-        iterators = train_iter,
-        optimizer={"gen":opt_gen,"dis":outdis},
-        device = args.gpu)
-    trainer = training.Trainer(updater, (args.epoch, "epoch"),out=args.out)
+        models=(gen, dis),
+        iterator=train_iter,
+        optimizer={
+            'gen': opt_gen, 'dis': opt_dis},
+        device=args.gpu)
+    trainer = training.Trainer(updater, (args.epoch, 'epoch'), out=args.out)
 
-    snapshot_interval = (args.snapshot_interval,"iteration")
-    display_interval = (args.display_interval,"iteration")
-
+    snapshot_interval = (args.snapshot_interval, 'iteration')
+    display_interval = (args.display_interval, 'iteration')
     trainer.extend(
-        extensions.snapshot(filename="snapshot_iter_{.updater.iteration}.npz"),
+        extensions.snapshot(filename='snapshot_iter_{.updater.iteration}.npz'),
         trigger=snapshot_interval)
     trainer.extend(extensions.snapshot_object(
         gen, 'gen_iter_{.updater.iteration}.npz'), trigger=snapshot_interval)
     trainer.extend(extensions.snapshot_object(
         dis, 'dis_iter_{.updater.iteration}.npz'), trigger=snapshot_interval)
     trainer.extend(extensions.LogReport(trigger=display_interval))
-    trainer.extend(extensions.LogReport([
-        "epoch","iteration","gen/loss","diss/loss",
-    ]),trigger=display_interval)
+    trainer.extend(extensions.PrintReport([
+        'epoch', 'iteration', 'gen/loss', 'dis/loss',
+    ]), trigger=display_interval)
     trainer.extend(extensions.ProgressBar(update_interval=10))
     trainer.extend(
         out_generated_image(
-            gen,dis,10,10,args.seed,args.out),
+            gen, dis,
+            10, 10, args.seed, args.out),
         trigger=snapshot_interval)
 
     if args.resume:
-        chainer.serializer.load_npz(args.resume,trainer)
+        # Resume from a snapshot
+        chainer.serializers.load_npz(args.resume, trainer)
 
-    # run!
+    # Run the training
     trainer.run()
+
 
 if __name__ == '__main__':
     main()
